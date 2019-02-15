@@ -32,7 +32,7 @@ try{
   sockets = JSON.parse(params.sockets);
   console.log('params', params.sockets, tester );
 }catch(error){
-  <!-- alert("Something is wrong with your Sockets JSON list, take a look again or try validating it online."); -->
+  //alert("Something is wrong with your Sockets JSON list, take a look again or try validating it online.");
 }
 
 // console.log('editor', this.document.querySelector('#instantUpdate').value)
