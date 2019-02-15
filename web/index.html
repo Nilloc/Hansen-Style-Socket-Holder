@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<!--
+== OpenJSCAD.org, Copyright (c) 2013-2017 by Rene K. Mueller <spiritdude@gmail.com>, Licensed under MIT License ==
+   with some code from OpenJsCad processfile.html by Joost Nieuwenhuijse
+   in conjunction with csg.js, openjscad.js, lightgl.js by various authors (see them listed in the individual files)
+
+Purpose:
+   More modern interface for OpenJsCad as published at http://joostn.github.com/OpenJsCad/
+-->
+    <meta http-equiv=Pragma content=no-cache>
+    <meta http-equiv=Expires content=-1>
+    <meta http-equiv=CACHE-CONTROL content=NO-CACHE>
+
+    <title>OpenJSCAD.org</title>
+    <link rel="shortcut icon" href="imgs/favicon.png" type="image/x-png">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="openjscad.css" type="text/css">
+  </head>
+  <body>
+    <script src="dist/index.js"></script>
+<!-- top left header (logo and error message) -->
+    <div id="header">
+      <!-- <img src="imgs/title.png"> -->
+      <h1>Hansen Style Socket Holder</h1>
+      <div id="errordiv"></div>
+    </div>
+
+<!-- sliding tab (help, links, examples, options, etc) -->
+    <div id="menu">
+      <img id="menuHandle" src="imgs/menuHandleVLIn.png">
+      <nav>
+        <div id="menuVersion"></div>
+        <p/>
+        <table class="info">
+          <tr><td class="infoView" colspan=2>Editor</td></tr>
+          <tr><td align="right" class="infoOperation">Render Code</td><td class="infoKey">F5 or SHIFT + Return</td></tr>
+          <tr><td align="right" class="infoOperation">Save To Cache</td><td class="infoKey">CTRL + S</td></tr>
+          <tr><td align="right" class="infoOperation">Load From Cache</td><td class="infoKey">CTRL + L</td></tr>
+          <tr><td align="right" class="infoOperation">Clear Cache</td><td class="infoKey">CTRL + SHIFT + \</td></tr>
+          <tr><td align="right" class="infoOperation">Download Code</td><td class="infoKey">CTRL + SHIFT + S</td></tr>
+          <tr><td align="right" class="infoOperation">Reset View</td><td class="infoKey">CRTL + Return</td></tr>
+          <tr><td class="infoView" colspan=2>3D View</td></tr>
+          <tr><td align="right" class="infoOperation">Rotate XZ</td><td class="infoKey">Left Mouse</td></tr>
+          <tr><td align="right" class="infoOperation">Pan</td><td class="infoKey">Middle Mouse or SHIFT + Left Mouse</td></tr>
+          <tr><td align="right" class="infoOperation">Rotate XY</td><td class="infoKey">Right Mouse or ALT + Left Mouse</td></tr>
+          <tr><td align="right" class="infoOperation">Zoom In/Out</td><td class="infoKey">Wheel Mouse or CTRL + Left Mouse</td></tr>
+        </table>
+        <p>
+          <a class="navlink" href="https://openjscad.org/dokuwiki/doku.php" target="_blank" rel="noopener">User Guide / Documentation <img src="imgs/externalLink.png" style="externalLink"></a>
+          <br/><span class="menuSubInfo">How to program with OpenJSCAD: online, offline &amp; CLI</span>
+        </p>
+        <p>
+          <a class="navlink" href="https://plus.google.com/communities/114958480887231067224" rel="publisher" target="_blank" rel="noopener">Recent Updates <img src="imgs/externalLink.png" style="externalLink"></a>
+          <br/><span class="menuSubInfo">Announcements of recent developments</span>
+        </p>
+        <p>
+          <a class="navlink" href="https://plus.google.com/communities/114958480887231067224" target="_blank" rel="noopener">Google+ Community <img src="imgs/externalLink.png" style="externalLink"></a>
+          <br/><span class="menuSubInfo">Discuss with other users &amp; developers</span>
+        </p>
+        <div id="examplesTitle" class="navlink"><a href='#' onclick='return false'>Examples</a></div>
+        <div id="examples"></div>
+        <span class="menuSubInfo">Dozens of examples to learn from</span>
+        <p/>
+<!--
+        <div id="optionsTitle" class="navlink"><a href='#' onclick='return false'>Options</a></div>
+        <div id="options"></div>
+        <span class="menuSubInfo">Your personal settings</span></p>
+ -->
+        <p/>
+        <b>Supported Formats</b>
+        <table class="info">
+          <tr><td align="right"><b>jscad</b></td><td><a target="_blank" rel="noopener" href="https://openjscad.org/dokuwiki/doku.php">OpenJSCAD</a> (native, import/export)</td></tr>
+          <tr><td align="right"><b>scad</b></td><td><a target="_blank" rel="noopener" href="http://openscad.org">OpenSCAD</a> (<a target=_blank href="https://openjscad.org/dokuwiki/doku.php">experimental</a>, import)</td></tr>
+          <tr><td align="right"><b>stl</b></td><td><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/STL_(file_format)">STL format</a> (experimental, import/export)</td></tr>
+          <tr><td align="right"><b>amf</b></td><td><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Additive_Manufacturing_File_Format">AMF format</a> (experimental, import/export)</td></tr>
+          <tr><td align="right"><b>dxf</b></td><td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AutoCAD_DXF">DXF format</a> (experimental, import/export)</td></tr>
+          <tr><td align="right"><b>x3d</b></td><td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/X3D">X3D format</a> (experimental, export)</td></tr>
+          <tr><td align="right"><b>svg</b></td><td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">SVG format</a> (experimental, import/export)</td></tr>
+        </table>
+        <p><a class="navlink about" href="#">About</a></p>
+      </nav>
+    </div> <!-- /menu -->
+
+<!-- about dialog -->
+    <div id="about">
+      <img src="imgs/title.png">
+      <div id="aboutVersion" ></div>
+
+      <p>
+<h4>OpenJsCad by</h4>
+- Joost Nieuwenhuijse (core),</br>
+- Ren&eacute; K. M&uuml;ller (core, CLI & GUI),</br>
+- Stefan Baumann (core),</br>
+- Z3 Dev (core, CLI & GUI),</br>
+- Mark Moissette (core, CLI & GUI),</br>
+- Eduard Bespalov (core),</br>
+- Gary Hogdson (OpenSCAD translator)
+
+<h4>csg.js core &amp; improvements by</h4>
+- Evan Wallace</br>
+- Eduard Bespalov</br>
+- Joost Nieuwenhuijse</br>
+- Alexandre Girard
+
+<h4>Additional libraries & tools</h4>
+- xmldom</br>
+- sax</br>
+- browserify</br>
+- babel</br>
+</p>
+
+<p>
+License: MIT License<br>
+Get your copy/clone/fork from <a href="https://github.com/jscad/OpenJSCAD.org" target="_blank" rel="noopener">GitHub: OpenJSCAD</a>
+      </p>
+      <p>
+        <br/><a class="okButton" href='#'> OK </a>
+      </p>
+    </div> <!-- about -->
+
+<!-- editor -->
+    <div id="editFrame">
+      <div>
+        <img id="editHandle" src="imgs/editHandleIn.png"></img>
+      </div>
+      <div id="editor">
+// title      : Hansen Style Socket Holder
+// author     : Collin Reisdorf
+// license    : MIT License
+// revision   : 0.005
+// tags       : Tools,Sockets,Boolean
+// file       : hansen_style_socket_holder.jscad
+
+function getParameterDefinitions () {
+  return [
+    { name: 'baseSettings', type: 'group', caption: 'Base Settings' },
+    { name: 'socketBaseHeight', caption: 'Socket base height:', type: 'int', initial: 8, min: 5, max: 20, step: 1 },
+    { name: 'socketBaseBevelSize', caption: 'Socket base bevel size:', type: 'float', initial: 1.5, step:0.25 },
+    { name: 'socketBasePaddingSide', caption: 'Base Side Padding:', type: 'int', initial: 5, step:1 },
+    { name: 'baseWidth', caption: 'Base min-width:', type: 'int', initial: 30, step:5 },
+    { name: 'socektSettings', type: 'group', caption: 'Sockets to build' },
+    { name: 'sockets', caption: 'List of Sockets:', type:'text', initial:'[{"driver":"1/4", "size":10, "length":30, "od":20},{"driver":"1/4", "size":11, "length":30, "od":20}]'},
+    { name: 'socketTolerance', caption:'Socket Tolerance (mm)', type:'float', initial:0.5, step:0.1, min:0, max:2},
+    // { name: 'labelStyle', caption: 'Label style [extruded (default), embossed, none]:', type: 'text', initial:'extruded'}
+  ];
+}
+
+
+function main (params) {
+
+let sockets = [
+{"driver":"1/4", "size":10, "length":30, "od":20},
+{"driver":"1/4", "size":11, "length":30, "od":20}, 
+{"driver":"1/4", "size":"3/8", "length":80, "od":24, "label":"3\n-\n8"},
+];
+
+try{
+  sockets = JSON.parse(params.sockets);
+  console.log('params', params.sockets, tester );
+}catch(error){
+  <!-- alert("Something is wrong with your Sockets JSON list, take a look again or try validating it online."); -->
+}
+
+// console.log('editor', this.document.querySelector('#instantUpdate').value)
+
+let trayLabel = false; //"1/2 Deep Impact";
+// TODO: add units to sockets array for metric/standard conversion
+let socketBaseHeight = 8;
+let socketBaseBevelSize = params.socketBaseBevelSize || 1.5;
+let spacingX = 12;
+let spacingY = 50;
+let offsetX = 0;
+let offsetY = 0;
+let socketTolerance = params.socketTolerance || 0.5;
+let postTolerance = 23; //25.4 would be no tolerance
+let baseThickness = 5;
+let baseWidth = params.baseWidth || 50; //TODO: Make this based on widest socket!
+let maxBaseWidth = 300;
+let models = [];
+// TODO: Add another level to the arrays for rows of tools.
+  for(var i=0; i < sockets.length; i++){
+    // need to handle fractions and convert to numbers safely
+    let socketLabel = String(sockets[i].label) || (String(sockets[i].size).indexOf('/') > -1) ? String(sockets[i].size).split('/').join('\n-\n') : sockets[i].size;
+    
+    sockets[i].driver = (String(sockets[i].driver).indexOf('/') < 0) ? parseFloat(sockets[i].driver) : sockets[i].driver.split('/')[0]/sockets[i].driver.split('/')[1]; //eval(sockets[i].driver); // I know about the evals...
+    sockets[i].size = (String(sockets[i].size).indexOf('/') < 0) ? parseFloat(sockets[i].size) : sockets[i].size.split('/')[0]/sockets[i].size.split('/')[1]; //eval(sockets[i].size);
+    sockets[i].length = (sockets[i].length && String(sockets[i].length).indexOf('/') < 0) ? parseFloat(sockets[i].length) : sockets[i].length.split('/')[0]/sockets[i].length.split('/')[1]; //eval(sockets[i].length);
+    sockets[i].od = (sockets[i].od && String(sockets[i].od).indexOf('/') < 0) ? parseFloat(sockets[i].od) : sockets[i].od.split('/')[0]/sockets[i].od.split('/')[1]; //eval(sockets[i].od);
+    
+    // Everything should get metric here
+    let socketLength = sockets[i].length; //TODO: make this get metric too
+    let socketSize = (sockets[i].size < 3) ? (sockets[i].size * postTolerance) - socketTolerance : sockets[i].size - socketTolerance;
+    let driverSize = (sockets[i].driver * postTolerance < socketSize) ? sockets[i].driver * postTolerance : socketSize - 2;
+    
+    // Makes the socket.od at least as wide as the size plus padding to keep it on the base.
+    if( sockets[i].od <  sockets[i].size)  sockets[i].od =  sockets[i].size + ((socketBaseBevelSize+baseThickness) * 2);
+
+    
+    offsetX += sockets[i].od/2;//sockets[i].size + spacingX;
+    // if(offsetX >= 300){
+    //   offsetX = 0;
+    //   offsetY += spacingY;
+    // }
+    
+    // Make size label
+    let sizeText =  extrudeText(
+                        socketLabel, //text
+                        ((socketLabel.indexOf('-') > -1) ? 5.5 : 7) * (driverSize / postTolerance),            //size (smaller if fraction!)
+                        (((socketLabel.indexOf('-') > -1) ? 2 : 2.5) * (driverSize/postTolerance)),          //weight
+                        1,                                           //height
+                        (String(sockets[i].label || sockets[i].size).indexOf('1') > -1) ? 0.75 : 1 // letterspacing to fix gaps after 1 (felt cute, might delete later)
+                    );
+                    
+    let textBounds = sizeText.getBounds();
+    // console.log('"'+sockets[i].size+'"', 'y0', textBounds[0].y, 'y1', textBounds[1].y, Math.abs(textBounds[1].y) + Math.abs(textBounds[0].y), 'x0', textBounds[0].x, 'x1', textBounds[1].x, Math.abs(textBounds[1].x) + Math.abs(textBounds[0].x));
+    
+    let post = union(
+        difference(
+            cylinder({fn:64, d:driverSize, h:(socketLength + 12)}),
+            rotate([45,0,0], cube({size:26}))
+                .translate([-13,-8,(socketLength + 10) - 13])
+        ),
+        
+        union(
+            cylinder({fn:64, d1:socketSize, d2:driverSize, h:(socketBaseHeight / 3)}).translate([0,0,socketBaseHeight]),
+            cylinder({fn:64, d1:socketSize*0.75, d2:driverSize, h:(socketBaseHeight / 2)}).translate([0,0,socketBaseHeight]),
+            cylinder({fn:64, d1:socketSize*0.5, d2:driverSize, h:(socketBaseHeight/1.5)}).translate([0,0,socketBaseHeight]),
+            cylinder({fn:64, d:socketSize, h:socketBaseHeight}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 1), d2:socketSize, h:socketBaseBevelSize * 1.5}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 2), d2:socketSize, h:socketBaseBevelSize}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 3), d2:socketSize, h:socketBaseBevelSize / 2}),
+            rotate([45,0,0], 
+                sizeText.translate([
+                    -(textBounds[0].x + textBounds[1].x)/2, //(0 - textBounds[0].x) - (textBounds[0].x + textBounds[1].x)/2,
+                    //(Math.abs(textBounds[1].y) + Math.abs(textBounds[0].y)/2) - 4, //3 - (textBounds[1].y + textBounds[0].y),// -3 * driverSize/postTolerance, //(textBounds[0].y - textBounds[1].y)/-4,
+                    -(textBounds[0].y) - (Math.abs(textBounds[0].y - textBounds[1].y)/2),
+                    0
+                ])
+            ).translate(
+                [
+                    0, // (sizeText.getBounds()[0].x - sizeText.getBounds()[1].x)/2,
+                    0, //-3 * driverSize/postTolerance,
+                    (socketLength + 5)//(3.25))
+                ]
+            )
+        )
+        // TODO: Wrap if max width is achieved
+      ).translate([offsetX,offsetY,baseThickness]);
+      
+    // let testText = sizeText.translate([
+    //     (57 + (10*i)) - ((textBounds[0].x + textBounds[1].x)/2),// - (Math.abs(textBounds[1].x) + Math.abs(textBounds[0].x)/2),
+    //     // (42.5-textBounds[0].y) - (Math.abs(textBounds[1].y) + Math.abs(textBounds[0].y)/2),
+    //     (42.5-textBounds[0].y) - (Math.abs(textBounds[0].y - textBounds[1].y)/2),
+    //     0
+    // ]);
+    offsetX += sockets[i].od/2; // add the other half of the offset
+    
+    if(sockets[i].od > baseWidth) baseWidth = sockets[i].od;
+    
+    models.push(post);
+    //models.push(testText);
+  }
+  let base = cube({
+      size:[offsetX + (params.socketBasePaddingSide * 2), baseWidth, baseThickness*2], 
+    //   size:[offsetX, baseWidth, baseThickness*2], 
+
+      center:true, 
+      radius:baseThickness/2, 
+      fn:24, 
+      round:true
+  }).translate([(offsetX / 2),0,0]);
+  let baseCut = cube({
+      size:[offsetX + (params.socketBasePaddingSide * 2), baseWidth, baseThickness*2], 
+      center:true
+  }).translate([(offsetX / 2),0, baseThickness * -1]);
+  if(trayLabel){
+    let trayLabelText = extrudeText(trayLabel, 3, 1, 5).translate([-8,-20,baseThickness - 1]);  
+    base = difference(base, trayLabelText);
+  }
+//   let h = hull(square(10), translate([5, 10, 15], circle(10)));
+//   console.log("hull", h, "\n\tcube", cube(10))
+  models.push(difference(base, baseCut));
+  
+  return union(models).translate([(offsetX / -2),0,0]);
+}
+
+
+function extrudeText(textToExtrude, size, thickness, height, letterSpacing, lineSpacing, textAlign){
+    let extrudedText = [];
+    // Added letterspacing hack for kerning numbers with a 1!
+    let text = vectorText(
+      { height:size || 5, //(textToExtrude.indexOf('-') > -1) ? size*0.75 : size, 
+        align:textAlign || 'center', 
+        letterSpacing:letterSpacing || 1,
+        lineSpacing:lineSpacing || 1.25
+      }, 
+      textToExtrude
+    );
+    for(var seg = 0; seg < text.length; seg++){
+      let segment = rectangular_extrude(text[seg],
+        {w:thickness || 1, h:height || 1, fn:64, closed:false});
+      extrudedText.push(segment);
+    }
+    
+    return union(extrudedText);
+}
+
+      </div>
+    </div> <!-- editor -->
+
+<!-- design viewer -->
+    <div oncontextmenu="return false;" id="viewerContext"></div> <!-- avoiding popup when right mouse is clicked -->
+
+<!-- design parameters -->
+    <div id="parametersdiv"></div>
+    <div id="selectdiv"></div>
+
+<!-- design information (status message, download buttons, drag and drop area, etc) -->
+    <div id="tail">
+      <div id="statusdiv"></div>
+      <div id="filedropzone">
+        <div id="filedropzone_empty">
+        </div>
+        <div id="filedropzone_input">
+          <p>
+            <label class="input-control">Add Supported Files: <input type="file" id="files-input" accept="*/*" multiple="1"></input></label>
+          </p>
+        </div>
+        <div id="filedropzone_filled">
+          <span id="currentfile">...</span>
+          <div id="filebuttons">
+            <button id="getstlbutton" style="display:none" onclick="getStl();">Get STL</button>
+            <button id="reloadAllFiles">Reload</button>
+           <!--button onclick="parseFile(gCurrentFile,true,false);">Debug (see below)</button-->
+            <label for="autoreload">Auto Reload</label><input type="checkbox" name="autoreload" value="" id="autoreload">
+          </div>
+        </div>
+      </div>
+    </div> <!-- tail -->
+
+<!-- footer (version, copyright) -->
+    <div id="footer">
+    </div>
+  </body>
+</html>
