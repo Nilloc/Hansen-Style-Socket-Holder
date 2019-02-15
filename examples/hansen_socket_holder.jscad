@@ -39,10 +39,10 @@ try{
 
 let trayLabel = false; //"1/2 Deep Impact";
 // TODO: add units to sockets array for metric/standard conversion
-let socketBaseHeight = 8;
+let socketBaseHeight = params.socketBaseHeight || 8;
 let socketBaseBevelSize = params.socketBaseBevelSize || 1.5;
 let spacingX = 12;
-let spacingY = 50;
+// let spacingY = 50;
 let offsetX = 0;
 let offsetY = 0;
 let socketTolerance = params.socketTolerance || 0.5;
