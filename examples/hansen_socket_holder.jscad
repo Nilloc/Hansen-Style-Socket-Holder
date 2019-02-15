@@ -46,7 +46,7 @@ let spacingX = 12;
 let offsetX = 0;
 let offsetY = 0;
 let socketTolerance = params.socketTolerance || 0.5;
-let postTolerance = 23; //25.4 would be no tolerance
+let postTolerance = 24.5; //25.4 would be no tolerance
 let baseThickness = 5;
 let baseWidth = params.baseWidth || 50; //TODO: Make this based on widest socket!
 let maxBaseWidth = 300;
@@ -69,6 +69,7 @@ let models = [];
     // Makes the socket.od at least as wide as the size plus padding to keep it on the base.
     if( sockets[i].od <  sockets[i].size)  sockets[i].od =  sockets[i].size + ((socketBaseBevelSize+baseThickness) * 2);
 
+    //TODO: Add ID too for minimum inner diameter for stubborn sockets with little holes.
     
     offsetX += sockets[i].od/2;//sockets[i].size + spacingX;
     // if(offsetX >= 300){
