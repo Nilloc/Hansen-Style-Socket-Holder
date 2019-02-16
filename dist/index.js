@@ -93441,19 +93441,19 @@ Processor.prototype = {
     this.parametersdiv.appendChild(element);
 
     // implementing instantUpdate
-    var instantUpdateCheckbox = document.createElement('input');
-    instantUpdateCheckbox.type = 'checkbox';
-    instantUpdateCheckbox.id = 'instantUpdate';
-    this.parametersdiv.appendChild(instantUpdateCheckbox);
-
-    element = document.getElementById('instantUpdateLabel');
-    if (element === null) {
-      element = document.createElement('label');
-      element.innerHTML = 'Instant Update';
-      element.id = 'instantUpdateLabel';
-    }
-    element.setAttribute('for', instantUpdateCheckbox.id);
-    this.parametersdiv.appendChild(element);
+    // var instantUpdateCheckbox = document.createElement('input');
+    // instantUpdateCheckbox.type = 'checkbox';
+    // instantUpdateCheckbox.id = 'instantUpdate';
+    // this.parametersdiv.appendChild(instantUpdateCheckbox);
+    //
+    // element = document.getElementById('instantUpdateLabel');
+    // if (element === null) {
+    //   element = document.createElement('label');
+    //   element.innerHTML = 'Instant Update';
+    //   element.id = 'instantUpdateLabel';
+    // }
+    // element.setAttribute('for', instantUpdateCheckbox.id);
+    // this.parametersdiv.appendChild(element);
 
     this.enableItems();
     this.clearViewer();

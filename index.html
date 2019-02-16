@@ -25,6 +25,7 @@ Purpose:
     <div id="header">
       <!-- <img src="imgs/title.png"> -->
       <h1>Hansen Style Socket Holder</h1>
+      <h5><a href="https://github.com/nilloc/Hansen-Style-Socket-Holder/" target="_blank">Source</a>
       <div id="errordiv"></div>
     </div>
 
@@ -33,7 +34,7 @@ Purpose:
       <img id="menuHandle" src="imgs/menuHandleVLIn.png">
       <nav>
         <div id="menuVersion"></div>
-        <p/>
+        <!-- <p/> -->
         <table class="info">
           <tr><td class="infoView" colspan=2>Editor</td></tr>
           <tr><td align="right" class="infoOperation">Render Code</td><td class="infoKey">F5 or SHIFT + Return</td></tr>
@@ -63,13 +64,13 @@ Purpose:
         <div id="examplesTitle" class="navlink"><a href='#' onclick='return false'>Examples</a></div>
         <div id="examples"></div>
         <span class="menuSubInfo">Dozens of examples to learn from</span>
-        <p/>
+        <!-- <p/> -->
 <!--
         <div id="optionsTitle" class="navlink"><a href='#' onclick='return false'>Options</a></div>
         <div id="options"></div>
         <span class="menuSubInfo">Your personal settings</span></p>
  -->
-        <p/>
+        <!-- <p/> -->
         <b>Supported Formats</b>
         <table class="info">
           <tr><td align="right"><b>jscad</b></td><td><a target="_blank" rel="noopener" href="https://openjscad.org/dokuwiki/doku.php">OpenJSCAD</a> (native, import/export)</td></tr>
@@ -344,5 +345,8 @@ function extrudeText(textToExtrude, size, thickness, height, letterSpacing, line
 <!-- footer (version, copyright) -->
     <div id="footer">
     </div>
+    <script>
+      document.querySelector('input[name="sockets"]').attr('size', 100);
+    </script>
   </body>
 </html>
