@@ -93964,9 +93964,9 @@ Processor.prototype = {
           if (l !== null && l.nodeName === 'LABEL') {
             l.innerHTML = e.currentTarget.value;
           }
-          if (document.getElementById('instantUpdate').checked === true) {
-            that.rebuildSolids();
-          }
+          // if (document.getElementById('instantUpdate').checked === true) {
+          //   that.rebuildSolids();
+          // }
         };
         this.paramControls.push(control);
 
