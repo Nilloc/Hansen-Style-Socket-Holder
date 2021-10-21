@@ -1,20 +1,22 @@
 // title      : Hansen Style Socket Holder
 // author     : Collin Reisdorf
 // license    : MIT License
-// revision   : 0.1.5
+// revision   : 1.5
 // tags       : Tools,Sockets,Boolean
 // file       : hansen_style_socket_holder.jscad
+
 
 function getParameterDefinitions () {
   return [
     { name: 'baseSettings', type: 'group', caption: 'Base Settings' },
     { name: 'trayLabel', type:'text', caption:'Tray Label:'},
+    { name: 'mountHoles', type:'checkbox', checked:true, caption:'Mounting Holes'},
     { name: 'socketBaseHeight', caption: 'Socket base height:', type: 'int', initial: 8, min: 5, max: 24, step: 1 },
     { name: 'socketBaseBevelSize', caption: 'Socket base bevel size:', type: 'float', initial: 1.5, step:0.25 },
     { name: 'socketBasePaddingSide', caption: 'Base Side Padding:', type: 'int', initial: 5, step:1 },
     { name: 'baseWidth', caption: 'Base min-width:', type: 'int', initial: 30, step:5 },
     { name: 'socektSettings', type: 'group', caption: 'Sockets to build' },
-    { name: 'sockets', caption: 'List of Sockets:', type:'text', initial:'[{"driver":"1/4", "size":10, "length":30, "od":20, "id":8},{"driver":"1/4", "size":11, "length":30, "od":20, "id":8}]'},
+    { name: 'sockets', caption: 'List of Sockets:', type:'text', initial:'[{"driver":"1/4", "size":4, "length":30, "od":20, "id":3.5}, {"driver":"1/4", "size":10, "length":30, "od":20, "id":8},{"driver":"1/4", "size":11, "length":30, "od":20, "id":8, "label":"ner"}]'},
     { name: 'socketTolerance', caption:'Socket Tolerance (mm)', type:'float', initial:0.5, step:0.1, min:0, max:2},
     // { name: 'labelStyle', caption: 'Label style [extruded (default), embossed, none]:', type: 'text', initial:'extruded'}
   ];
@@ -57,8 +59,14 @@ function main (params) {
   // TODO: Add another level to the arrays for rows of tools.
   for(var i=0; i < sockets.length; i++){
     // need to handle fractions and convert to numbers safely
+    
     let socketLabel = String(sockets[i].label) || (String(sockets[i].size).indexOf('/') > -1) ? String(sockets[i].size).split('/').join('\n-\n') : sockets[i].size;
     
+    // if there is a label defined use it instead
+    if(String(sockets[i].label) != "undefined" ){
+      socketLabel = sockets[i].label;
+    }
+        
     sockets[i].driver = (String(sockets[i].driver).indexOf('/') < 0) ? parseFloat(sockets[i].driver) : sockets[i].driver.split('/')[0]/sockets[i].driver.split('/')[1]; //eval(sockets[i].driver); // I know about the evals...
     sockets[i].size = (String(sockets[i].size).indexOf('/') < 0) ? parseFloat(sockets[i].size) : sockets[i].size.split('/')[0]/sockets[i].size.split('/')[1]; //eval(sockets[i].size);
     sockets[i].length = (sockets[i].length && String(sockets[i].length).indexOf('/') < 0) ? parseFloat(sockets[i].length) : sockets[i].length.split('/')[0]/sockets[i].length.split('/')[1]; //eval(sockets[i].length);
@@ -75,6 +83,10 @@ function main (params) {
     if (driverSize > socketSize){
       driverSize = socketSize;
     }
+    
+    //TODO: if driverSize is less than 4, make custom post above socket with size on it!
+    let tinyPost = driverSize < 4;
+    console.log("tinyPost:", tinyPost);
     
     //if there is a custom base height, use it instead
     if(sockets[i].bh){
@@ -108,7 +120,15 @@ function main (params) {
     let textBounds = sizeText.getBounds();
     // console.log('"'+sockets[i].size+'"', 'y0', textBounds[0].y, 'y1', textBounds[1].y, Math.abs(textBounds[1].y) + Math.abs(textBounds[0].y), 'x0', textBounds[0].x, 'x1', textBounds[1].x, Math.abs(textBounds[1].x) + Math.abs(textBounds[0].x));
     
-    let post = union(
+    let post = /*(tinyPost) ? union(
+            cylinder({fn:64, d1:socketSize, d2:driverSize, h:(socketBaseHeight / 3)}).translate([0,0,socketBaseHeight]), 
+            cylinder({fn:64, d2:socketSize*0.75, d1:driverSize, h:(socketBaseHeight / 2)}).translate([0,0,socketBaseHeight]),
+            cylinder({fn:64, d2:socketSize*0.5, d1:driverSize, h:(socketBaseHeight/1.5)}).translate([0,0,socketBaseHeight]),
+            cylinder({fn:64, d:socketSize, h:socketBaseHeight}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 1), d2:socketSize, h:socketBaseBevelSize * 1.5}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 2), d2:socketSize, h:socketBaseBevelSize}),
+            cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 3), d2:socketSize, h:socketBaseBevelSize / 2})
+    ).translate([offsetX,offsetY,baseThickness]) :*/ union(
         difference(
             cylinder({fn:64, d:driverSize, h:(socketLength + 12)}),
             rotate([45,0,0], cube({size:26}))
@@ -139,7 +159,7 @@ function main (params) {
             )
         )
         // TODO: Wrap if max width is achieved
-      ).translate([offsetX,offsetY,baseThickness]);
+    ).translate([offsetX,offsetY,baseThickness]);
       
     // let testText = sizeText.translate([
     //     (57 + (10*i)) - ((textBounds[0].x + textBounds[1].x)/2),// - (Math.abs(textBounds[1].x) + Math.abs(textBounds[0].x)/2),
@@ -182,12 +202,19 @@ function main (params) {
 //   console.log("hull", h, "\n\tcube", cube(10))
   models.push(difference(base, baseCut)); //NOTE: makes bottom flat.
   
-  let leftHole = cylinder({fn:64, d:2.6, h:12}).translate([firstHole, 0, 0]); //NOTE: holes for #4 screws
-  let rightHole = cylinder({fn:64, d:2.6, h:12}).translate([lastHole, 0, 0]);
+  if(params.mountHoles){
+    let leftHole = cylinder({fn:64, d:2.6, h:12}).translate([firstHole, 0, 0]); //NOTE: holes for #4 screws
+    let rightHole = cylinder({fn:64, d:2.6, h:12}).translate([lastHole, 0, 0]);
   
-  // console.log(firstHole, offsetX, baseWidth, offsetX + (params.socketBasePaddingSide * 2))
+    // console.log(firstHole, offsetX, baseWidth, offsetX + (params.socketBasePaddingSide * 2))
   
-  return difference(union(models), leftHole, rightHole).translate([(offsetX / -2),0,0]);
+    return difference(union(models), leftHole, rightHole).translate([(offsetX / -2),0,0]);
+  }else{
+    
+    return union(models).translate([(offsetX / -2),0,0]);
+  }
+  
+  
 }
 
 
