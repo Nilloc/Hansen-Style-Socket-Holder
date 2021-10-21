@@ -250,7 +250,7 @@ function main (params) {
     let textBounds = sizeText.getBounds();
     // console.log('"'+sockets[i].size+'"', 'y0', textBounds[0].y, 'y1', textBounds[1].y, Math.abs(textBounds[1].y) + Math.abs(textBounds[0].y), 'x0', textBounds[0].x, 'x1', textBounds[1].x, Math.abs(textBounds[1].x) + Math.abs(textBounds[0].x));
     
-    let post = (tinyPost) ? union(
+    let post = /*(tinyPost) ? union(
             cylinder({fn:64, d1:socketSize, d2:driverSize, h:(socketBaseHeight / 3)}).translate([0,0,socketBaseHeight]), 
             cylinder({fn:64, d2:socketSize*0.75, d1:driverSize, h:(socketBaseHeight / 2)}).translate([0,0,socketBaseHeight]),
             cylinder({fn:64, d2:socketSize*0.5, d1:driverSize, h:(socketBaseHeight/1.5)}).translate([0,0,socketBaseHeight]),
@@ -258,7 +258,7 @@ function main (params) {
             cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 1), d2:socketSize, h:socketBaseBevelSize * 1.5}),
             cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 2), d2:socketSize, h:socketBaseBevelSize}),
             cylinder({fn:64, d1:socketSize + (socketBaseBevelSize * 3), d2:socketSize, h:socketBaseBevelSize / 2})
-    ).translate([offsetX,offsetY,baseThickness]) : union(
+    ).translate([offsetX,offsetY,baseThickness]) :*/ union(
         difference(
             cylinder({fn:64, d:driverSize, h:(socketLength + 12)}),
             rotate([45,0,0], cube({size:26}))
